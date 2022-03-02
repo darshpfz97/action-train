@@ -1,0 +1,5 @@
+{"Not Applicable": 0,
+"Differentiation of Zavicefta versus Competitors": 1,
+"Establish the role of Zavicefta in documented as well as empirical therapy": 2,
+"Usage of Zavicefta in the real world": 3
+}

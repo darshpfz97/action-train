@@ -1,0 +1,17 @@
+{	"Epidemiology": 0,
+	"Sensitivity and Susceptibility": 1,
+	"Preferred Therapy": 2,
+	"Combination": 3,
+	"Patient Profile": 4,
+	"Guidelines": 5,
+	"Pharmacokinetics": 6,
+	"Formulation": 7,
+	"Empirical therapy": 8,
+	"Targeted treatment": 9,
+	"COVID-19": 10,
+	"Clinical Study": 11,
+	"AMR": 12,
+	"OPAT": 13,
+	"Competitors": 14,
+	"Antimicrobial Stewardship": 15
+}

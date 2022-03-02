@@ -1,0 +1,6 @@
+{"Not Applicable": 0,
+"Safety & PK of antifungals": 1,
+"Isavuconazole Life Cycle:Indications, Populations & Formulation": 2,
+"Resistance & epidemiology of IFI": 3,
+"Awareness & diagnosis of invasive fungal infections (IFI)": 4
+}
