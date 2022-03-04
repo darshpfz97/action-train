@@ -1,0 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+# Protect the main branch: https://help.github.com/en/github/administering-a-repository/enabling-required-status-checks
+name: SageMaker Train
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sm_train:
+    runs-on: ubuntu-latest
+    steps:
+    - name: PR checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Python environment
+      uses: actions/setup-python@v2
+      with:
+          python-version:'3.7'
+
+    - name: Install requirements
+      run: pip install --requirement requirements.txt
+    
+    - name: Fire SageMaker
+      id: sm_train
+      env:
+        AWS_ACCESS_KEY_ID: AKIAR7435KJRCRSRLST7
+        AWS_SECRET_ACCESS_KEY: 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
+        AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
+        AWS_DEFAULT_REGION: 'us-west-2'
+        PR_NUMBER: ${{ github.event.number }} # Only available for pr (no push)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python sm_train.py
