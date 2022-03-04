@@ -14,7 +14,7 @@ import time
 sagemaker_session = sagemaker.Session(boto3.session.Session())
 
 # Put the right role and input data
-role = "arn:aws:iam::137229062754:role/aws-service-role/sagemaker.amazonaws.com/AWSServiceRoleForAmazonSageMakerNotebooks"
+role = "arn:aws:iam::137229062754:role/service-role/AmazonSageMakerServiceCatalogProductsUseRole"
 bucket = "gmaist345"
 eval_path=f"s3://{bucket}/cresemba-kits/eval"
 input_path = f"s3://{bucket}/Medical Insights_May2021_DFOs_SV_Cresemba_(Isavuconazole).xlsx"
