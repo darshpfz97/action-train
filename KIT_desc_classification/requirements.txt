@@ -1,0 +1,6 @@
+torch
+transformers
+seaborn
+openpyxl
+smdebug
+s3fs
