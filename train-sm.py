@@ -3,12 +3,24 @@ import boto3
 from sagemaker.pytorch import PyTorch
 from sagemaker.analytics import TrainingJobAnalytics
 from report import ResultReport
+from datetime import datetime
+from sagemaker.pytorch.estimator import PyTorch
+import os
+
+import pandas as pd
+import sagemaker
+import time
 
 sagemaker_session = sagemaker.Session(boto3.session.Session())
 
 # Put the right role and input data
-role = "arn:aws:iam::294038372338:role/hunkimSagemaker"
-inputs = "s3://sagemaker-us-west-2-294038372338/sagemaker/hunkim-pytorch-mnist"
+role = "arn:aws:iam::420737321821:role/CUSPFE-SageMakerExecutionRole"
+bucket = "sbx-test-12343977"
+eval_path="s3://sbx-test-12343977/cresemba-kits/eval"
+input_path = f"s3://{bucket}/model-input/Medical Insights_May2021_DFOs_SV_Cresemba_(Isavuconazole).xlsx"
+cresemba_path="s3://sbx-test-12343977/utility_files/cresemba_KITS.txt"
+output_path = f"s3://{bucket}/cresemba-kits/model"
+code_path = f"s3://{bucket}/cresemba-kits/src"
 
 # Make sure the metric_definition and its regex
 # Train_epoch=1.0000;  Train_loss=0.8504;
@@ -20,20 +32,31 @@ metric_definitions=[
                         {'Name': 'train:epoch', 'Regex': 'Train_epoch=(.*?);'}
                     ]
 
+hyperparameters = {
+    "input_path": input_path, # Where our model will read the training data.
+    "cresemba_path": cresemba_path,
+    "eval_path":eval_path
+}
+g1=time.time()*100000
+g2=int(g1)
+job_names=f"cresemba-{g2}"
+estimator = PyTorch(
+    entry_point='main_TransferLearning.py', # The name of our model script.
+    source_dir='KIT_desc_classification/',
+    instance_type='ml.p2.xlarge', # Instnace with GPUs.
+    instance_count=1,
+    framework_version='1.5.0', # PyTorch version.
+    py_version='py3',
+    hyperparameters=hyperparameters, # Passed as command-line args to entry_point.
+    code_location=code_path, # Where our source_dir gets stored in S3.
+    output_path=output_path, # Where our model outputs get stored in S3.
 
-estimator = PyTorch(entry_point='mnist.py',
-                    source_dir='code',
-                    role=role,
-                    framework_version='1.4.0',
-                    train_instance_count=2,
-                    train_instance_type='ml.c4.xlarge',
-                    metric_definitions=metric_definitions,
-                    hyperparameters={
-                        'epochs': 1,
-                        'backend': 'gloo'
-                    })
+    role=role, # Role with SageMaker access.
+    sagemaker_session=sagemaker_session
+)
 
-estimator.fit({'training': inputs})
+estimator.fit(inputs=None, job_name=job_names)
+
 
 ########################################################################
 # DONOT EDIT AFTER THIS LINE
