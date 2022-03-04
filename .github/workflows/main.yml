@@ -15,21 +15,20 @@ jobs:
     - name: PR checkout
       uses: actions/checkout@v2
 
-    - name: Setup Python environment
+    - name: Setup Python
       uses: actions/setup-python@v2
-      with:
-          python-version:'3.7'
+      with: 
+        python-version:'3.7'
 
     - name: Install requirements
       run: pip install --requirement requirements.txt
-    
     - name: Fire SageMaker
       id: sm_train
       env:
         AWS_ACCESS_KEY_ID: AKIAR7435KJRCRSRLST7
         AWS_SECRET_ACCESS_KEY: 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
         AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-        AWS_DEFAULT_REGION: 'us-west-2'
+        AWS_DEFAULT_REGION: 'us-east-1'
         PR_NUMBER: ${{ github.event.number }} # Only available for pr (no push)
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
