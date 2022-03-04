@@ -1,0 +1,7 @@
+sagemaker
+flake8
+pylint
+pytest
+PyGithub
+pandas
+tabulate
