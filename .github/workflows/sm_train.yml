@@ -31,8 +31,8 @@ jobs:
         #AWS_REGION: 'us-west-2'   # optional: defaults to us-east-1
         #AWS_DEFAULT_REGION: 'us-west-2'
         
-        AWS_ACCESS_KEY_ID: AKIAR7435KJROGGYK5ET
-        AWS_SECRET_ACCESS_KEY: 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
+        AWS_ACCESS_KEY_ID: AKIAR7435KJRCRSRLST7
+        AWS_SECRET_ACCESS_KEY: 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
         AWS_REGION: 'us-east-1'
         AWS_DEFAULT_REGION: 'us-east-1'
        
