@@ -6,6 +6,7 @@ name: SageMaker Train
 # events but only for the master branch
 on:
   pull_request:
+    types: [ opened, edited ]
     branches: [ main ]
 
 jobs:
