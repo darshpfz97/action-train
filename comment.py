@@ -11,7 +11,7 @@ class Comment:
     pr = None
 
     def __init__(self, pr_number=None):
-        gh = Github(os.getenv('GITHUB_TOKEN'))
+        gh = Github(os.getenv('GITHUB_TOKEN'))#
         repo_name = os.getenv('GITHUB_REPOSITORY')
         self.repo = gh.get_repo(repo_name)
 
