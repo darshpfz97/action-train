@@ -5,8 +5,8 @@ import pandas as pd
 import base64
 from io import BytesIO, StringIO
 from comment import Comment
-
-class ResultReport():
+#test
+class ResultReport(): 
     def __init__(self):
         self.comment = Comment()
 
