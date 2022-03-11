@@ -1,29 +1,33 @@
-# This is a basic workflow to help you get started with Actions
-# Protect the main branch: https://help.github.com/en/github/administering-a-repository/enabling-required-status-checks
 name: SageMaker Train
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   pull_request:
     types: [ opened, edited ]
-    branches: [ main ]
+    branches: [ product3 ]
 
-jobs:
+jobs:     
   sm_train:
     runs-on: ubuntu-latest
     steps:
     - name: PR checkout
       uses: actions/checkout@v2
-
+      
     - name: setup python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: '3.9'
 
+    - uses: actions/cache@v2
+      id: cache-requirements
+      with:
+        path: ~/.cache/pip
+        key: pip-${{ hashFiles('requirements.txt') }}
+        
+      
     - name: Install requirements
-      run: pip install --requirement requirements.txt
-    
+      run: pip install -r requirements.txt
+        
     - name: Fire SageMaker
       id: sm_train
       env:
@@ -31,20 +35,14 @@ jobs:
         #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         #AWS_REGION: 'us-west-2'   # optional: defaults to us-east-1
         #AWS_DEFAULT_REGION: 'us-west-2'
-        
         AWS_ACCESS_KEY_ID: AKIAR7435KJRCRSRLST7
         AWS_SECRET_ACCESS_KEY: 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
         AWS_REGION: 'us-east-1'
         AWS_DEFAULT_REGION: 'us-east-1'
-       
-        
         #aws_session_token : FwoGZXIvYXdzEA4aDAodbBlduj9W+KR3tyKaAhY3h9JF3G5pKpDaGNYErZrGhgBzw8vWmayyVDGDwGeRFrRPAYduJMFCeFovuuxeZqjVrn9USZkFHacnVD4ZE02PFqfohzBn0HOCe5Xpml54N+PDD9By40OhSLHj5wd6CdLoz9WgIRPCWSw3pNEHvNgjY8yfY44JvGKHHn7clvbcsKPZwHIbIaEHUgOsPGbfhNyzf3P/XY/aESDL23j7DMs+MHaeJXSVwBUjqWWNqpCI3q08UJWUkS9neL5Z1fdGvy0pulgC0IxZNy6Z3dtnsY1U/OZIzWtfJLoBKddNzdD0xatiMy6YLxiKiBWuY2M1Y1TAoOvMQwsiA0QoPO5FnTO+0yu8SAx64IHxYFc5EN1xrkAhdrECMO0jpiiy6omRBjIr7+WAbGuJBGOoQB0lgCeMJuVotARR8qPJ9lCBykemNIJL2HIiOo55WXMvdA==
-
-        
-       
         #aws-session-token: h
         PR_NUMBER: ${{ github.event.number }} # Only available for pr (no push)
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
       run: |
         python sm_train.py
