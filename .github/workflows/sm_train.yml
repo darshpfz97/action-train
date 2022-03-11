@@ -4,7 +4,7 @@ name: SageMaker Train
 on:
   pull_request:
     types: [ opened, edited ]
-    branches: [ product3 ]
+    branches: [ main ]
 
 jobs:     
   sm_train:
