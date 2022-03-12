@@ -14,6 +14,8 @@ import time
 sagemaker_session = sagemaker.Session(boto3.session.Session())
 
 # Put the right role and input data
+# https://github.com/aws/sagemaker-python-sdk/issues/300
+# -> https://github.com/aws/sagemaker-python-sdk/issues/300#issuecomment-409045648
 role = "arn:aws:iam::137229062754:role/sagemaker1"
 bucket = "gmaist345"
 eval_path=f"s3://{bucket}/cresemba-kits/eval"
