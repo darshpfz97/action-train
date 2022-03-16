@@ -1,1 +1,1 @@
-print("Hello from Sm2")
+print("Hello from Sm2.")
