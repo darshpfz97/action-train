@@ -19,11 +19,7 @@ jobs:
       id: cache
       with:
         path: ${{ env.pythonLocation}}/lib/python3.7/site-packages/*
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
-            
+        key: ${{ runner.os }}-pipcache-${{ hashFiles('requirements.txt') }}
 
     - name: Install requirements
       if: steps.cache.outputs.cache-hit != 'true'
