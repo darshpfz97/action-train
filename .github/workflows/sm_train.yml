@@ -45,12 +45,6 @@ jobs:
       run: |
           echo "Installing dependencies and caching them."
           pip install -r requirements.txt
-    - name: configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-          role-to-assume: arn:aws:iam::420737321821:role/CUSPFE-SageMakerExecutionRole-oidc
-          role-session-name: samplerolesession
-          aws-region: 'us-east-1'
     
     - name: Fire SageMaker
       id: sm_train
