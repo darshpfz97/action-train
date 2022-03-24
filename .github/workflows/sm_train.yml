@@ -1,24 +1,43 @@
-name: SageMaker Train
+name: test workflow
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-on: [push]
+# events but only for the master branch
 
-jobs:     
-  sm_train:
+
+#TODO 
+  # add cache
+  # setup env vars
+
+on:
+  #schedule:
+   # - cron: '* * * * *'
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read    # This is required for actions/checkout@v2
+
+
+env:
+  python-version: 3.7
+
+
+jobs:
+  testjob:
     runs-on: ubuntu-latest
     steps:
     - name: PR checkout
       uses: actions/checkout@v2
-      
+
     - name: setup python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.7'
+        python-version: ${{ env.python-version }}
 
     - uses: actions/cache@master
       id: cache
       with:
-        path: ${{ env.pythonLocation}}/lib/python3.7/site-packages/*
+        path: ${{ env.pythonLocation}}/lib/python${{ env.python-version }}/site-packages/*
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
 
     - name: Install requirements
@@ -26,23 +45,65 @@ jobs:
       run: |
           echo "Installing dependencies and caching them."
           pip install -r requirements.txt
-
-        
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          role-to-assume: arn:aws:iam::420737321821:role/CUSPFE-SageMakerExecutionRole-oidc
+          role-session-name: samplerolesession
+          aws-region: 'us-east-1'
+    
     - name: Fire SageMaker
       id: sm_train
-      env:
-        #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        #AWS_REGION: 'us-west-2'   # optional: defaults to us-east-1
-        #AWS_DEFAULT_REGION: 'us-west-2'
-        AWS_ACCESS_KEY_ID: AKIAR7435KJRCRSRLST7
-        AWS_SECRET_ACCESS_KEY: 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
-        AWS_REGION: 'us-east-1'
-        AWS_DEFAULT_REGION: 'us-east-1'
-        #aws_session_token : FwoGZXIvYXdzEA4aDAodbBlduj9W+KR3tyKaAhY3h9JF3G5pKpDaGNYErZrGhgBzw8vWmayyVDGDwGeRFrRPAYduJMFCeFovuuxeZqjVrn9USZkFHacnVD4ZE02PFqfohzBn0HOCe5Xpml54N+PDD9By40OhSLHj5wd6CdLoz9WgIRPCWSw3pNEHvNgjY8yfY44JvGKHHn7clvbcsKPZwHIbIaEHUgOsPGbfhNyzf3P/XY/aESDL23j7DMs+MHaeJXSVwBUjqWWNqpCI3q08UJWUkS9neL5Z1fdGvy0pulgC0IxZNy6Z3dtnsY1U/OZIzWtfJLoBKddNzdD0xatiMy6YLxiKiBWuY2M1Y1TAoOvMQwsiA0QoPO5FnTO+0yu8SAx64IHxYFc5EN1xrkAhdrECMO0jpiiy6omRBjIr7+WAbGuJBGOoQB0lgCeMJuVotARR8qPJ9lCBykemNIJL2HIiOo55WXMvdA==
-        #aws-session-token: h
-        PR_NUMBER: ${{ github.event.number }} # Only available for pr (no push)
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       run: |
-        python sm_train.py
+        #aws s3 lsname: test workflow
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+
+
+#TODO 
+  # add cache
+  # setup env vars
+
+on:
+  #schedule:
+   # - cron: '* * * * *'
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read    # This is required for actions/checkout@v2
+
+
+env:
+  python-version: 3.7
+
+
+jobs:
+  testjob:
+    runs-on: ubuntu-latest
+    steps:
+    - name: PR checkout
+      uses: actions/checkout@v2
+
+    - name: setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.python-version }}
+
+    - uses: actions/cache@master
+      id: cache
+      with:
+        path: ${{ env.pythonLocation}}/lib/python${{ env.python-version }}/site-packages/*
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+    - name: Install requirements
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+          echo "Installing dependencies and caching them."
+          pip install -r requirements.txt
+    
+    - name: Fire SageMaker
+      id: sm_train
+      run: |
+        #aws s3 ls
